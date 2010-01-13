@@ -53,10 +53,16 @@
             } else {
                 var full_path = 'namespaces';
             }
+            var split_path = full_path.split("/");
+            var namespace_name = split_path.pop();
+            var parent_namespace_url = split_path.join('/');
+            if(parent_namespace_url.length>0) {
+                parent_namespace_url += '/';
+            }
             // Populate some of the items
             $('textarea#namespace_description_textarea').val(obj.description);
             $('#namespace_description').html(obj.description);
-            $('#path').html(full_path);
+            $('#path').html('<a href="#/'+parent_namespace_url+'">'+parent_namespace_url+'</a>'+namespace_name);
             $('#namespace_path').val(full_path);
             $('#namespace_parent').val(full_path);
             $('#tag_parent').val(full_path);
@@ -272,6 +278,16 @@
             var fluid_path = this.params["splat"][0];
             var url = 'namespaces/'+fluid_path+'?returnDescription=True&returnNamespaces=True&returnTags=True';
             fluidDB.get(url, function(data){update_tags(fluid_path, data, context)}, true, context.auth);
+        });
+
+        /*
+         * A special case for displaying the root namespace. I'll have to add a
+         * means of making sure we don't return too many records at a later
+         * date...
+         */
+        this.get('#/namespaces', function(context) {
+            var url = 'namespaces?returnDescription=True&returnNamespaces=True&returnTags=True';
+            fluidDB.get(url, function(data){update_tags('namespaces', data, context)}, true, context.auth);
         });
 
         /*

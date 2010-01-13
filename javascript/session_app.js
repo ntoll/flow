@@ -32,6 +32,13 @@
             context.username = username
         });
 
+        /*
+         * Builds the logout form
+         */
+        function buildLogout(username) {
+            return '<span id="session"><form method="POST" action="#/logout"> Logged in as: <strong>'+username+'</strong> <input type="submit" value="Log out"/> </form> </span>';
+        }
+
         /**********************************************************************
          *
          * Routes
@@ -63,8 +70,7 @@
                 var auth = "Basic "+$.base64Encode(name+':'+password);
                 $.cookie(COOKIE_AUTH_TOKEN, auth, COOKIE_OPTIONS);
                 $.cookie(COOKIE_USERNAME, name, COOKIE_OPTIONS);
-                context.log(name);
-                context.log(auth);
+                $('#session').replaceWith(buildLogout(name));
                 // reloading will trigger the re-set of the home-page with data
                 // pulled from FluidDB - very hacky... :-/
                 location.reload();
@@ -81,7 +87,7 @@
          */
         this.get(/(.*)/, function(context) {
             if (context.auth) {
-                context.partial('templates/logout.ms', { username: context.username }, function(rendered) { $('#session').replaceWith(rendered)});
+                $('#session').replaceWith(buildLogout(context.username));
             } else {
                 context.partial('templates/login.ms', null, function(rendered) { $('#session').replaceWith(rendered)});
             }
@@ -90,6 +96,6 @@
     });
 
     $(function() {
-        session_app.run('#/');
+        session_app.run();
     });
 })(jQuery);
