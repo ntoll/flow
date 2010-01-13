@@ -8,32 +8,31 @@
     <body>
         <div id="container">
             <div id="header">
+                <div id="header_title">
+                    <h1>Flow</h1>
+                    <p>FluidDB Application Development...</p>
+                </div>
             </div>
             <div id="menu">
-                <a href="index.html">Home</a> |
-                <a href="tags.html">Tags</a> |
-                <a href="object.html">View Project</a> |
-                <a href="permissions.html">Permissions</a> |
-                <a href="search.html">Search</a> |
-                <a href="help.html">Help</a>
+                <a href="home.html" target="flow_application_frame">Home</a> |
+                <a href="tags.html" target="flow_application_frame">Tags</a> |
+                <a href="object.html#/" target="flow_application_frame">View Project</a> |
+                <a href="permissions.html" target="flow_application_frame">Permissions</a> |
+                <a href="search.html" target="flow_application_frame">Search</a> |
+                <a href="help.html" target="flow_application_frame">Help</a>
                 <span id="session"></span>
             </div>
             <div id="content">
-                <h1>Coming soon...</h1>
-                <p>An attempt at hosting a FluidApp for writing FluidApps within
-                FluidDB. Lots of stuff doesn't work and I'm nowhere near
-                finished. Your mileage may vary but stuff is being added all the
-                time. Comments and feedback <a href="http://ntoll.org/contact">
-                most welcome</a>.</p>
-                <p>Makes use of the following third party libraries:</p>
-                <ul>
-                    <li>The <a href="http://code.quirkey.com/sammy/">Sammy javascript framework</a></li>
-                    <li>The <a href="http://github.com/ecarnevale/jsFluidDB">jsFluidDB</a> library.</li>
-                    <li><a href="http://jquery.com/">jQuery</a></li>
-                </ul>
+                <iframe id="flow_application_frame"
+                    name="flow_application_frame" src="home.html" scrolling="0"
+                    width="100%" height="66%"
+                    frameborder="0">
+                    <h1>Attention!</h1>
+                    <p>In order to use Flow your browser must support iframes.</p>
+                </iframe>
             </div>
             <div id="footer">
-                &copy; 2009 <a href="http://ntoll.org">Nicholas H.Tollervey</a>
+                &copy; 2010 <a href="http://ntoll.org">Nicholas H.Tollervey</a>
             </div>
         </div>
         <script src="http://jqueryui.com/latest/jquery-1.3.2.js" type="text/javascript" charset="utf-8"></script>

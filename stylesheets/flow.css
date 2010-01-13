@@ -64,9 +64,14 @@ h1, h2, h3, h4, h5, h6 {
 
 /* layout */
 #header{
-    background:#FFFFFF url('../images/masthead.png') center bottom;
-    height: 64px;
-    position: relative;
+    font-family: georgia, times;
+    background:#FFFFFF;
+}
+
+#header_title h1 {
+    font-family: georgia, times;
+    font-size: 3.2em;
+    margin-bottom: 8px;
 }
 
 #menu {
@@ -95,8 +100,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #content {
-    padding-left:8px;
-    padding-right:8px;
     padding-bottom:4px;
 }
 
@@ -169,7 +172,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .jqmOverlay { 
-    background-color: #000; 
 }
 
 /* Background iframe styling for IE6. Prevents ActiveX bleed-through (<select>

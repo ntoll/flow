@@ -102,6 +102,16 @@
             var url = 'objects/'+object_id+'?showAbout=True';
             fluidDB.get(url, function(data){update_tags(object_id, data, context)}, true, context.auth);
         });
+
+        /* 
+         * Just display the current object
+         */
+        this.get('#/', function(context) {
+            var uri = document.location.href;
+            var object_id = uri.split("/")[4];
+            var url = 'objects/'+object_id+'?showAbout=True';
+            fluidDB.get(url, function(data){update_tags(object_id, data, context)}, true, context.auth);
+        });
     });
 
     $(function() {

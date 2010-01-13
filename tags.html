@@ -1,24 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="stylesheets/flow.css" type="text/css" media="screen"/>
-        <title>Flow - FluidDB Application Development</title>
     </head>
     <body>
-        <div id="container">
-            <div id="header">
-            </div>
-            <div id="menu">
-                <a href="index.html">Home</a> |
-                <a href="tags.html">Tags</a> |
-                <a href="object.html">View Project</a> |
-                <a href="permissions.html">Permissions</a> |
-                <a href="search.html">Search</a> |
-                <a href="help.html">Help</a>
-                <span id="session"></span>
-            </div>
-            <div id="content">
                 <h1>Tags and Namespaces</h1>
                 <div id="namespace_details">
                     <h3>Viewing <span id="path">Unknown</span></h3>
@@ -33,6 +18,7 @@
                             </span>
                             <div id="add_namespace" class="jqmWindow">
                                 <h2>Add New Namespace</h2>
+                                <hr/>
                                 <form method="POST" action="#/namespace/new">
                                     <p>
                                     <label for="namespace_name">Name</label>:<br/><input type="text" name="namespace_name"/><br/>
@@ -48,6 +34,7 @@
                             </div>
                             <div id="add_tag" class="jqmWindow">
                                 <h2>Add New Tag</h2>
+                                <hr/>
                                 <form method="POST" action="#/tag/new">
                                     <p>
                                     <label for="tag_name">Name</label>:<br/><input type="text" name="tag_name"/><br/>
@@ -64,6 +51,7 @@
                             </div>
                             <div id="tag_info" class="jqmWindow">
                                 <h2>Tag Information</h2>
+                                <hr/>
                                 <div id="info_waiting">Working... <img src="images/loader.gif" alt="Working..."/></div>
                                 <div id="tag_info_area" style="display:none;">
                                     <p><strong>Full path</strong>: <span id="tag_path"></span></p>
@@ -100,10 +88,6 @@
                 </div>
                 <div id="namespace_list"><img src="images/loader-big.gif" alt="Loading..."/></div>
                 <div id="tag_list"></div>
-            </div>
-            <div id="footer">
-                &copy; 2009 <a href="http://ntoll.org">Nicholas H.Tollervey</a>
-            </div>
             <script src="http://jqueryui.com/latest/jquery-1.3.2.js" type="text/javascript" charset="utf-8"></script>
             <script src="javascript/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
             <script src="javascript/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
@@ -111,8 +95,6 @@
             <script src="javascript/fluiddb.js" type="text/javascript" charset="utf-8"></script>
             <script src="javascript/sammy/sammy.js" type="text/javascript" charset="utf-8"></script>
             <script src="javascript/sammy/plugins/sammy.mustache.js" type="text/javascript" charset="utf-8"></script>
-            <script src="javascript/json2.js" type="text/javascript" charset="utf-8"></script>
-            <script src="javascript/session_app.js" type="text/javascript" charset="utf-8"></script>
             <script src="javascript/tag_app.js" type="text/javascript" charset="utf-8"></script>
             <script type="text/javascript" charset="utf-8">
                 $().ready(function() {
@@ -121,6 +103,5 @@
                         $('#tag_info').jqm({trigger: '.tag_more'});
                 });
             </script>
-        </div>
     </body>
 </html>
