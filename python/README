@@ -1,0 +1,12 @@
+Some commands to help keep things in sync between FluidDB and your local
+filesystem.
+
+push.py - will traverse the file-system tree, add any new tags (and delete those
+that are not needed) and upload the files as tag values to the appropriate
+object.
+
+pull.py - gets the latest version of the tag values from FluidDB.
+
+credentials.json.example - you should copy this file to your home directory,
+replace the settings therein with appropriate values and rename the file by
+removing the ".example" extension. 

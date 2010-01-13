@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="stylesheets/flow.css" type="text/css" media="screen"/>
+        <title>Flow - FluidDB Application Development</title>
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+            </div>
+            <div id="menu">
+                <a href="index.html">Home</a> |
+                <a href="tags.html">Tags</a> |
+                <a href="object.html">View Project</a> |
+                <a href="permissions.html">Permissions</a> |
+                <a href="search.html">Search</a> |
+                <a href="help.html">Help</a>
+                <span id="session"></span>
+            </div>
+            <div id="content">
+                <h1>Tags and Namespaces</h1>
+                <div id="namespace_details">
+                    <h3>Viewing <span id="path">Unknown</span></h3>
+                    <div id="namespace_actions">
+                        <p>Description:</p>
+                        <p><q><em><span id="namespace_description">Unknown description...</span></em></q></p>
+                            <a href="#" onclick="$('#namespace_actions').hide();$('#namespace_edit').fadeIn('slow');">Edit Namespace Description</a> |
+                            <a href="#" id="add_namespace_trigger" class="jqModal">Add New Namespace</a> |
+                            <a href="#" id="add_tag_trigger" class="jqModal">Add New Tag</a>
+                            <span id="delete_namespace" style="display: none;">
+                                | <a href="#/delete" class="delete" onclick="return(confirm('Are you sure? (This step cannot be undone)'));">Delete Namespace</a>
+                            </span>
+                            <div id="add_namespace" class="jqmWindow">
+                                <h2>Add New Namespace</h2>
+                                <form method="POST" action="#/namespace/new">
+                                    <p>
+                                    <label for="namespace_name">Name</label>:<br/><input type="text" name="namespace_name"/><br/>
+                                    <label for="namespace_description">Description</label>:<br/>
+                                    <textarea name="namespace_description" rows="4" cols="64"></textarea><br/>
+                                    <input name="namespace_parent" id="namespace_parent" type="hidden" value="" />
+                                    <input type="submit" value="Create"/>
+                                    <input type="reset" value="Reset" />
+                                    <a href="#" class="jqmClose">Close</a>
+                                    <img src="images/loader.gif" alt="Working..." id="namespace_working" style="display:none;"/>
+                                    </p>
+                                </form>
+                            </div>
+                            <div id="add_tag" class="jqmWindow">
+                                <h2>Add New Tag</h2>
+                                <form method="POST" action="#/tag/new">
+                                    <p>
+                                    <label for="tag_name">Name</label>:<br/><input type="text" name="tag_name"/><br/>
+                                    <label for="tag_description">Description</label>:<br/>
+                                    <textarea name="tag_description" rows="4" cols="64"></textarea><br/>
+                                    <label for="tag_indexed">Indexed</label>: <input type="checkbox" name="tag_indexed" value="indexed"/><br/>
+                                    <input name="tag_parent" id="tag_parent" type="hidden" value="" />
+                                    <input type="submit" value="Create"/>
+                                    <input type="reset" value="Reset" />
+                                    <a href="#" class="jqmClose">Close</a>
+                                    <img src="images/loader.gif" alt="Working..." id="tag_working" style="display:none;"/>
+                                    </p>
+                                </form>
+                            </div>
+                            <div id="tag_info" class="jqmWindow">
+                                <h2>Tag Information</h2>
+                                <div id="info_waiting">Working... <img src="images/loader.gif" alt="Working..."/></div>
+                                <div id="tag_info_area" style="display:none;">
+                                    <p><strong>Full path</strong>: <span id="tag_path"></span></p>
+                                    <p><strong>Description</strong>:</p>
+                                    <div id="tag_description">
+                                        <p><span id="tab_description_read_only"></span></p>
+                                        <p><a href="#" onclick="$('#tag_update_working').hide();$('#tag_description').hide();$('#edit_tag_description').fadeIn('slow');">Edit Description</a></p>
+                                    </div>
+                                    <div id="edit_tag_description" style="display:none;">
+                                        <form method="POST" action="#/tag/edit">
+                                            <textarea name="tag_description_text" id="tag_description_textarea" rows=4 cols="64"></textarea><br/>
+                                            <input type="hidden" name="full_tag_path" id="full_tag_path" value=""/>
+                                            <input type="submit" value="Update"/>
+                                            <a href="#" onclick="$('#edit_tag_description').hide();$('#tag_description').show();">Cancel</a>
+                                            <span id="tag_update_working" style="display:none"><img src="images/loader.gif" alt="Working..."/></span>
+                                        </form>
+                                    </div>
+                                    <p><strong>Indexed</strong>: <span id="tag_indexed"></span></p>
+                                </div>
+                                <p><a href="#" class="jqmClose">Close</a></p>
+                            </div>
+                    </div>
+                    <div id="namespace_edit" style="display: none;">
+                        <p>Description:</p>
+                        <form method="POST" action="#/namespace/edit">
+                            <p>
+                            <textarea name="description" rows="4" cols="64" id="namespace_description_textarea">Unknown...</textarea><br/>
+                            <input name="path" id="namespace_path" type="hidden" value=""/>
+                            <input type="submit" value="Submit"/> 
+                            <a href="#" onclick="$('#namespace_edit').hide();$('#namespace_actions').fadeIn('slow');">Cancel</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                <div id="namespace_list"><img src="images/loader-big.gif" alt="Loading..."/></div>
+                <div id="tag_list"></div>
+            </div>
+            <div id="footer">
+                &copy; 2009 <a href="http://ntoll.org">Nicholas H.Tollervey</a>
+            </div>
+            <script src="http://jqueryui.com/latest/jquery-1.3.2.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/jqModal.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/fluiddb.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/sammy/sammy.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/sammy/plugins/sammy.mustache.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/json2.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/session_app.js" type="text/javascript" charset="utf-8"></script>
+            <script src="javascript/tag_app.js" type="text/javascript" charset="utf-8"></script>
+            <script type="text/javascript" charset="utf-8">
+                $().ready(function() {
+                        $('#add_namespace').jqm({trigger: '#add_namespace_trigger'});
+                        $('#add_tag').jqm({trigger: '#add_tag_trigger'});
+                        $('#tag_info').jqm({trigger: '.tag_more'});
+                });
+            </script>
+        </div>
+    </body>
+</html>

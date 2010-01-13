@@ -1,0 +1,44 @@
+Flow is a simple "show and tell" project to demonstrate how to
+write a javascript based application for interacting with FluidDB.
+
+Flow is itself an application for writing javascript based applications with
+FluidDB. 
+
+I'll let you pause a minute while you work out the circularity of that last
+sentence. ;-)
+
+It uses the Sammy framework ( http://code.quirkey.com/sammy/index.html ), a 
+modified jsFluidDB script ( http://github.com/ecarnevale/jsFluidDB ) and FluidDB
+itself (for hosting and data storage).
+
+I'm in the middle of writing a blog post detailing what I did and why and will
+reference it in this README when I've finished it.
+
+It's *VERY* incomplete - just a proof of concept really. Currently you can:
+
+* Sign in/out
+* View, create, edit and delete namespaces/tags 
+* Edit tag values for mime-types text/html text/css and text/javascript (this
+will be extended)
+* Search for objects using the simple QL that comes with FluidDB
+
+To use it properly you'll need to register for a username and password here:
+
+http://fluidinfo.com/accounts/new
+
+To "install" your own instance of Flow navigate to the "python" sub-directory
+and make sure you have an appropriately configured "credentials.json" file in
+place (see credentials.json.example for what you should provide). Simply run the
+"push.py" script to deploy the code to FluidDB (sandbox instance - update the
+script to point at the main instance) and watch out for the object_id dumped to
+stdout. Once complete, go visit:
+
+http://sandbox.fluidinfo.com/objects/[THE OBJECT ID RETURNED BY PUSH.PY]/[YOUR FLUIDDB USERNAME]/fluidapp/flow/tags.html#/
+
+Have a play, look at the code and try it out. 
+
+Comments, suggestions and good ideas are most welcome!
+
+Nicholas.
+http://ntoll.org/contact
+

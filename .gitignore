@@ -1,0 +1,4 @@
+*.pyc
+.timestamp
+*.log
+python/credentials.json
