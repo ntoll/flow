@@ -14,7 +14,6 @@
 
     var COOKIE_AUTH_TOKEN = 'pocket_fluiddb_auth';
     var COOKIE_USERNAME = 'pocket_fluiddb_username';
-    var COOKIE_OPTIONS = { path: '/', expires: 10};
 
     var session_app = $.sammy(function() {
         // the element_selector puts this application in the context of the
@@ -50,6 +49,7 @@
          */
         this.post('#/logout', function(context) {
             if(context.auth) {
+                var COOKIE_OPTIONS = { path: '/', expires: 10};
                 $.cookie(COOKIE_AUTH_TOKEN, null, COOKIE_OPTIONS);
                 $.cookie(COOKIE_USERNAME, null, COOKIE_OPTIONS);
             }
@@ -67,6 +67,7 @@
             var password = context['params']['password'];
             // Basic validation
             if (name.length > 0 && password.length > 0) {
+                var COOKIE_OPTIONS = { path: '/', expires: 10};
                 var auth = "Basic "+$.base64Encode(name+':'+password);
                 $.cookie(COOKIE_AUTH_TOKEN, auth, COOKIE_OPTIONS);
                 $.cookie(COOKIE_USERNAME, name, COOKIE_OPTIONS);

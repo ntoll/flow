@@ -57,12 +57,14 @@
             var namespace_name = split_path.pop();
             var parent_namespace_url = split_path.join('/');
             if(parent_namespace_url.length>0) {
-                parent_namespace_url += '/';
+                var parent_namespace_text = parent_namespace_url+'/';
+            } else {
+                var parent_namespace_text = '';
             }
             // Populate some of the items
             $('textarea#namespace_description_textarea').val(obj.description);
             $('#namespace_description').html(obj.description);
-            $('#path').html('<a href="#/'+parent_namespace_url+'">'+parent_namespace_url+'</a>'+namespace_name);
+            $('#path').html('<a href="#/'+parent_namespace_url+'">'+parent_namespace_text+'</a>'+namespace_name);
             $('#namespace_path').val(full_path);
             $('#namespace_parent').val(full_path);
             $('#tag_parent').val(full_path);
