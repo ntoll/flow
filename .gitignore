@@ -1,4 +1,5 @@
 *.pyc
+*.swp
 .timestamp
 *.log
 python/credentials.json

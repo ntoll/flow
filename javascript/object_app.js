@@ -12,8 +12,8 @@
  */
 (function($) {
 
-    var COOKIE_AUTH_TOKEN = 'pocket_fluiddb_auth';
-    var COOKIE_USERNAME = 'pocket_fluiddb_username';
+    var COOKIE_AUTH_TOKEN = 'fluiddb_auth';
+    var COOKIE_USERNAME = 'fluiddb_username';
     var COOKIE_OPTIONS = { path: '/', expires: 10};
 
     var object_app = $.sammy(function() {

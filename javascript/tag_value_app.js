@@ -13,8 +13,8 @@
  */
 (function($) {
 
-    var COOKIE_AUTH_TOKEN = 'pocket_fluiddb_auth';
-    var COOKIE_USERNAME = 'pocket_fluiddb_username';
+    var COOKIE_AUTH_TOKEN = 'fluiddb_auth';
+    var COOKIE_USERNAME = 'fluiddb_username';
     var COOKIE_OPTIONS = { path: '/', expires: 10};
     var EDITOR = null;
 
@@ -39,12 +39,20 @@
 
         function edit_code_tag(path, mime, data, context){
             $("#status_info").html("Processing content...");
-            // empty the helpful text message element
-            $('#tag_path').html(path);
             // Populate some of the items
+            $('#tag_path').html(path);
             $('textarea#code').val(data);
             $('#tag_path_hidden').val(path);
             $('#tag_mime').val(mime);
+            // Process the path to be able to get create a couple of hrefs
+            var split_path = path.split("/");
+            var obj_id = split_path[0];
+            // get rid of the tag
+            split_path.pop();
+            // build the parent namespace path
+            var namespace_path = "tags.html#/namespaces/"+split_path.slice(1).join("/");
+            $('#view_object').attr("href", "object.html#/"+obj_id);
+            $('#view_tag').attr("href", namespace_path);
             var parser = 'parsexml.js';
             var style = 'xmlcolors.css';
             if(mime=='text/css') {

@@ -12,8 +12,8 @@
  */
 (function($) {
 
-    var COOKIE_AUTH_TOKEN = 'pocket_fluiddb_auth';
-    var COOKIE_USERNAME = 'pocket_fluiddb_username';
+    var COOKIE_AUTH_TOKEN = 'fluiddb_auth';
+    var COOKIE_USERNAME = 'fluiddb_username';
     var COOKIE_OPTIONS = { path: '/', expires: 10};
 
     var tag_app = $.sammy(function() {
@@ -96,8 +96,7 @@
             var tl = "";
             for(t in obj.tagNames) {
                 var tag_name = obj.tagNames[t];
-                var clean_tag_name = tag_name.replace(".", "DOT");
-                tl = tl + '<div class="tag_instance"> <img src="images/tag.png" alt="A tag called '+tag_name+'" /> <a href="search.html#/has%20'+path+'/'+tag_name+'">'+tag_name+'</a> <span class="tag_actions"> (<a href="#/get_description/'+path+'/'+tag_name+'" class="tag_more">More</a> / <a href="#/tag/'+path+'/'+tag_name+'/delete" class="delete" onclick="return(confirm(\'Are you sure? (This step cannot be undone)\'));">Delete</a>) </span></div>';
+                tl = tl + '<div class="tag_instance" name="'+tag_name+'_details"> <img src="images/tag.png" alt="A tag called '+tag_name+'" /> <a href="search.html#/has%20'+path+'/'+tag_name+'">'+tag_name+'</a> <span class="tag_actions"> (<a href="#/get_description/'+path+'/'+tag_name+'" class="tag_more">More</a> / <a href="#/tag/'+path+'/'+tag_name+'/delete" class="delete" onclick="return(confirm(\'Are you sure? (This step cannot be undone)\'));">Delete</a>) </span></div>';
             }
             // add a secret hidden throbber to show when deleting something...
             $namespace_list.append('<img src="images/loader.gif" alt="Working..." id="list_loader" style="display: none;"/>');
