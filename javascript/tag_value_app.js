@@ -38,6 +38,7 @@
          *********************************************************************/
 
         function edit_code_tag(path, mime, data, context){
+            $("#status_info").html("Processing content...");
             // empty the helpful text message element
             $('#tag_path').html(path);
             // Populate some of the items
@@ -54,13 +55,19 @@
                 style = 'jscolors.css';
             }
 
+            $("#status_info").html("Initialising code editor...");
             EDITOR = CodeMirror.fromTextArea('code', {
                 height: "350px",
                 parserfile: parser,
                 stylesheet: "stylesheets/"+style,
                 path: "javascript/codemirror/",
                 continuousScanning: 500,
-                lineNumbers: true
+                lineNumbers: true,
+                initCallback: function(e) {
+                    $("#loading").hide();
+                    $("#edit_content").fadeIn('slow');
+                    $("#status_info").html("Initialising...");
+                    }
             });
         }
 
@@ -94,6 +101,7 @@
          * to edit / display
          */
         this.get(/\#\/(.*)$/, function(context) {
+            $("#status_info").html("Getting content from FluidDB...");
             var path = this.params["splat"][0];
             var mime = get_mime(path, context);
             if(mime.length > 0) {
