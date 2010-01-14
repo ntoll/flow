@@ -61,7 +61,7 @@
             var tl = "";
             for(t in obj.tagPaths) {
                 var tag_name = obj.tagPaths[t];
-                tl = tl + '<div class="tag_instance"> <img src="images/tag.png" alt="'+tag_name+'" /> <a href="/objects/'+object_id+'/'+tag_name+'">'+tag_name+'</a> <span class="tag_actions"> (<a href="tag_value.html#/'+object_id+'/'+tag_name+'">Edit</a> / <a href="#/'+object_id+'/'+tag_name+'/delete" class="delete" onclick="return(confirm("Are you sure? (This step cannot be undone)"));">Delete</a>) </span> </div>';
+                tl = tl + '<div class="tag_instance"> <img src="images/tag.png" alt="'+tag_name+'" /> <a href="/objects/'+object_id+'/'+tag_name+'" target="_blank">'+tag_name+'</a> <span class="tag_actions"> (<a href="tag_value.html#/'+object_id+'/'+tag_name+'">Edit</a> / <a href="#/'+object_id+'/'+tag_name+'/delete" class="delete" onclick="return(confirm("Are you sure? (This step cannot be undone)"));">Delete</a>) </span> </div>';
             }
             // add to the dom
             $tag_list.append(tl);
