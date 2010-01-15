@@ -37,14 +37,85 @@
          *
          *********************************************************************/
 
-        function edit_code_tag(path, mime, data, context){
-            $("#status_info").html("Processing content...");
+        /*
+         * Given the header information held in the "data" argument, this
+         * function pulls the actual value of the tag from FluidDB and makes
+         * sure the most appropriate callback is called
+         */
+        function process_tag(path, url, data, context) {
+            $("#status_info").html("Getting tag value from FluidDB...");
+            // We have the mime type from the content-type header, so lets work
+            // out the most appropriate action...
+            var mime = data['Content-Type'].toLowerCase().trim();
+            var split_mime = mime.split("/");
+            switch(split_mime[0]){
+                case "application":
+                    switch(split_mime[1]){
+                        case "javascript":
+                        case "json":
+                        case "vnd.fluiddb.value+json":
+                            fluidDB.get(url, function(tag_value){edit_code(path, mime, tag_value, context)}, true, context.auth);
+                            break;
+                    }
+                    break;
+                case "text":
+                    fluidDB.get(url, function(tag_value){edit_code(path, mime, tag_value, context)}, true, context.auth);
+                    break;
+                /* Missing IANA directories of content types:
+                 *
+                 * audio
+                 * example
+                 * image
+                 * message
+                 * model
+                 * video
+                 *
+                 * See: http://www.iana.org/assignments/media-types/ for more
+                 * information
+                 *
+                 * These *might* be supported in the future via file upload.
+                 */
+                default:
+                    unsupported_tag(path, mime, context);
+            }
+        }
+
+        /*
+         * So it looks like the tag value is some sort of source code. This
+         * function initialises the "source code" editor.
+         *
+         * I'm using the excellent CodeMirror in-browser code editor.
+         *
+         * See: http://marijn.haverbeke.nl/codemirror/ for more information on
+         * this.
+         *
+         * Currently the following languages are supported for syntax
+         * highlighting:
+         *
+         * XML/HTML
+         * CSS
+         * Javascript/JSON
+         *
+         * The following will be supported soon...
+         *
+         * Python
+         * Lua
+         * Ruby
+         *
+         * Any other type of language will still work but without the syntax
+         * highlighting.
+         *
+         * But c'mon... you *really shouldn't* be editing code in your browser.
+         * I'm just doing this for convenience... ;-)
+         */
+        function edit_code(path, mime, data, context){
+            $("#status_info").html("Processing content ("+mime+")...");
             // Populate some of the items
             $('#tag_path').html(path);
             $('textarea#code').val(data);
             $('#tag_path_hidden').val(path);
             $('#tag_mime').val(mime);
-            // Process the path to be able to get create a couple of hrefs
+            // Process the path to be able to set a couple of hrefs
             var split_path = path.split("/");
             var obj_id = split_path[0];
             // get rid of the tag
@@ -53,14 +124,30 @@
             var namespace_path = "tags.html#/namespaces/"+split_path.slice(1).join("/");
             $('#view_object').attr("href", "object.html#/"+obj_id);
             $('#view_tag').attr("href", namespace_path);
-            var parser = 'parsexml.js';
-            var style = 'xmlcolors.css';
-            if(mime=='text/css') {
-                parser = 'parsecss.js';
-                style = 'csscolors.css';
-            } else if (mime=='application/javascript') {
+            // Set up the editor for syntax highlighting
+            var split_mime = mime.split("/");
+            // Some safe defaults...
+            var parser = "parsedummy.js"; // to hold the name[s] of the parser file
+            var style = "docs.css"; // to hold the name of the css file
+            var lines = false;
+            if(split_mime[0] == 'application') {
                 parser = ['tokenizejavascript.js', 'parsejavascript.js'];
                 style = 'jscolors.css';
+                lines = true;
+            } else {
+                switch(split_mime[1]) {
+                    case 'css':
+                        parser = 'parsecss.js';
+                        style = 'csscolors.css';
+                        lines = true;
+                        break;
+                    case 'html':
+                    case 'xml':
+                        parser = 'parsexml.js';
+                        style = 'xmlcolors.css';
+                        lines = true;
+                        break;
+                }
             }
 
             $("#status_info").html("Initialising code editor...");
@@ -70,7 +157,7 @@
                 stylesheet: "stylesheets/"+style,
                 path: "javascript/codemirror/",
                 continuousScanning: 500,
-                lineNumbers: true,
+                lineNumbers: lines,
                 initCallback: function(e) {
                     $("#loading").hide();
                     $("#edit_content").fadeIn('slow');
@@ -79,23 +166,26 @@
             });
         }
 
-        /* 
-         * A very hacky function that attempts to guess the mime type of the
-         * data contained within the value of the tag from the tag's
-         * "extension".
-         *
-         * ToDo: This pongs - needs to be fixed.
+        /*
+         * Displays a nice message explaining why you can't edit tag-values with
+         * un-supported mime-types in Flow.
          */
-        function get_mime(path, context) {
-            if(path.match(/.js$/)) {
-                return "application/javascript";
-            } else if (path.match(/.html$/) || path.match(/.ms$/)) {
-                return 'text/html';
-            } else if (path.match(/.css$/)) {
-                return 'text/css';
-            } else {
-                return '';
-            }
+        function unsupported_tag(path, mime, context){
+            $("#status_info").html("Processing content ("+mime+")...");
+            // Populate some of the items
+            $('#tag_path').html(path);
+            $('.mime_type').html(mime);
+            // Process the path to be able to set a couple of hrefs
+            var split_path = path.split("/");
+            var obj_id = split_path[0];
+            // get rid of the tag
+            split_path.pop();
+            // build the parent namespace path
+            var namespace_path = "tags.html#/namespaces/"+split_path.slice(1).join("/");
+            $('#view_object').attr("href", "object.html#/"+obj_id);
+            $('#view_tag').attr("href", namespace_path);
+            $("#loading").hide();
+            $("#unsupported_content").fadeIn('slow');
         }
 
         /**********************************************************************
@@ -109,18 +199,10 @@
          * to edit / display
          */
         this.get(/\#\/(.*)$/, function(context) {
-            $("#status_info").html("Getting content from FluidDB...");
+            $("#status_info").html("Getting mime information from FluidDB...");
             var path = this.params["splat"][0];
-            var mime = get_mime(path, context);
-            if(mime.length > 0) {
-                // we have a tag with a mime-type we can derive from its name that can be user with the editor
-                var url = 'objects/'+path;
-                fluidDB.get(url, function(data){edit_code_tag(path, mime, data, context)}, true, context.auth);
-            } else {
-                // not sure what to make of the tag value so display a form to
-                // allow them to upload something... :-/
-                // ToDo: Finish this
-            }
+            var url = 'objects/'+path;
+            fluidDB.head(url, function(data){process_tag(path, url, data, context)}, true, context.auth);
         });
 
         /*
