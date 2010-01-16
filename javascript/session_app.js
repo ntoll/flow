@@ -31,13 +31,6 @@
             context.username = username
         });
 
-        /*
-         * Builds the logout form
-         */
-        function buildLogout(username) {
-            return '<span id="session"><form method="POST" action="#/logout"> Logged in as: <strong>'+username+'</strong> <input type="submit" value="Log out"/> </form> </span>';
-        }
-
         /**********************************************************************
          *
          * Routes
@@ -63,18 +56,16 @@
         this.post('#/login', function(context) {
             // extracting the username and password from the form (passed in
             // via the params dictionary).
-            var name = context['params']['username'];
+            var username = context['params']['username'];
             var password = context['params']['password'];
             // Basic validation
-            if (name.length > 0 && password.length > 0) {
+            if (username.length > 0 && password.length > 0) {
                 var COOKIE_OPTIONS = { path: '/', expires: 10};
-                var auth = "Basic "+$.base64Encode(name+':'+password);
+                var auth = "Basic "+$.base64Encode(username+':'+password);
                 $.cookie(COOKIE_AUTH_TOKEN, auth, COOKIE_OPTIONS);
-                $.cookie(COOKIE_USERNAME, name, COOKIE_OPTIONS);
-                $('#session').replaceWith(buildLogout(name));
-                // reloading will trigger the re-set of the home-page with data
-                // pulled from FluidDB - very hacky... :-/
-                location.reload();
+                $.cookie(COOKIE_USERNAME, username, COOKIE_OPTIONS);
+                context.username = username
+                context.partial('templates/logout.ms', { username: context.username}, function(rendered) { $('#session').replaceWith(rendered);});
             } else {
                 // oops...
                 alert('You must enter a username and password');
@@ -88,7 +79,7 @@
          */
         this.get(/(.*)/, function(context) {
             if (context.auth) {
-                $('#session').replaceWith(buildLogout(context.username));
+                context.partial('templates/logout.ms', { username: context.username}, function(rendered) { $('#session').replaceWith(rendered);});
             } else {
                 context.partial('templates/login.ms', null, function(rendered) { $('#session').replaceWith(rendered)});
             }
