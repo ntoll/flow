@@ -33,7 +33,7 @@ place (see credentials.json.example for what you should provide). Simply run the
 script to point at the main instance) and watch out for the object_id dumped to
 stdout. Once complete, go visit:
 
-http://sandbox.fluidinfo.com/objects/[THE OBJECT ID RETURNED BY PUSH.PY]/[YOUR FLUIDDB USERNAME]/fluidapp/flow/tags.html#/
+http://fluiddb.fluidinfo.com/objects/[THE OBJECT ID RETURNED BY PUSH.PY]/[YOUR FLUIDDB USERNAME]/fluidapp/flow/index.html#/
 
 Have a play, look at the code and try it out. 
 
