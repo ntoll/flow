@@ -29,8 +29,8 @@ http://fluidinfo.com/accounts/new
 To "install" your own instance of Flow navigate to the "python" sub-directory
 and make sure you have an appropriately configured "credentials.json" file in
 place (see credentials.json.example for what you should provide). Simply run the
-"push.py" script to deploy the code to FluidDB (sandbox instance - update the
-script to point at the main instance) and watch out for the object_id dumped to
+"push.py" script to deploy the code to FluidDB (main instance - update the
+script to point at the sandbox instance) and watch out for the object_id dumped to
 stdout. Once complete, go visit:
 
 http://fluiddb.fluidinfo.com/objects/[THE OBJECT ID RETURNED BY PUSH.PY]/[YOUR FLUIDDB USERNAME]/fluidapp/flow/index.html#/
