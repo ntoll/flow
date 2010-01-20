@@ -6,6 +6,7 @@
     <body>
                 <h2>Edit Tag Value</h2>
                 <p><strong>Path</strong>: <span id="tag_path"></span></p>
+                <p><strong>Mime-type</strong>: <span class="mime_type">Loading...</span></p>
                 <p><strong>View</strong>:
                 <a href="#" id="view_object">Object</a> |
                 <a href="#" id="view_tag">Namespace / Tag</a>
@@ -22,17 +23,37 @@
                     (<span class="mime_type"></span>) Flow cannot allow you to
                     edit the value.</p>
                 </div>
-                <div id="edit_content" style="display:none;">
-                <div style="margin-left: auto; margin-right: auto; width: 90%;">
-                    <form method="POST" action="#/edit">
-                        <div style="border: 1px solid #999; padding: 0px;">
-                            <textarea name="code" rows="32" cols="100" id="code"></textarea>
-                        </div>
-                        <input name="path" id="tag_path_hidden" type="hidden" value=""/>
-                        <input name="mime" id="tag_mime" type="hidden" value=""/>
+                <div id="edit_text_content" style="display:none;">
+                    <div style="margin-left: auto; margin-right: auto; width: 90%;">
+                        <form method="POST" action="#/edit_text">
+                            <div style="border: 1px solid #999; padding: 0px;">
+                                <textarea name="code" rows="32" cols="100" id="code"></textarea>
+                            </div>
+                            <input name="path" id="tag_path_hidden" type="hidden" value=""/>
+                            <input name="mime" id="tag_mime" type="hidden" value=""/>
+                            <input type="submit" value="Submit"/> 
+                        </form>
+                    </div>
+                </div>
+                <div id="edit_image_content" style="display:none;">
+                    <img id="image_value" src="" alt="Current Image"/>
+                    <form method="POST" action="#/edit_image" enctype="multipart/form-data">
+                        <label for="image">Upload new image:</label> 
+                        <input name="image" id="tag_new_image"
+                        type="file"/><br/>
+                        <input name="path" id="tag_image_path_hidden" type="hidden" value=""/>
                         <input type="submit" value="Submit"/> 
                     </form>
                 </div>
+                <div id="edit_doc_content" style="display:none;">
+                    <iframe id="doc_viewer" src="" style="width:600px; height:500px; padding: 8px;" frameborder="0"></iframe>
+                    <br/>
+                    <form method="POST" action="#/edit_image" enctype="multipart/form-data">
+                        <label for="image">Upload new pdf/ppt:</label> 
+                        <input name="doc" id="tag_new_doc" type="file"/><br/>
+                        <input name="path" id="tag_doc_path_hidden" type="hidden" value=""/>
+                        <input type="submit" value="Submit"/> 
+                    </form>
                 </div>
         <script src="http://jqueryui.com/latest/jquery-1.3.2.js" type="text/javascript" charset="utf-8"></script>
         <script src="javascript/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>

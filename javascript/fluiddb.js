@@ -21,7 +21,7 @@ fluidDB.choose = function(type){
     fluidDB.baseURL = fluidDB.instance[type];
 }
 
-fluidDB.choose('sandbox');
+fluidDB.choose('main');
 
 /*
  * Function to make the call to FluidDB

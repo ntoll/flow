@@ -119,6 +119,10 @@ def processFileIntoTag(file, directory_path, fluid_namespace_path, last_update,
         mime = 'image/jpg'
     elif file.endswith('.gif'):
         mime = 'image/gif'
+    elif file.endswith('.pdf'):
+        mime = 'application/pdf'
+    elif file.endswith('.ppt'):
+        mime = 'application/vnd.ms-powerpoint'
     logging.info('Pushing file %s as a value for tag: %s with mime: %s'%(file, tag_path, mime))
     body = open('/'.join((directory_path, file)), 'r')
     logging.info(fd.call('PUT', ''.join([object, tag_path[5:]]), body.read(), mime))
@@ -158,10 +162,13 @@ def main(args):
             new_object_flag = not check_response[1]['tagPaths']
         else:
             new_object_flag = True
+    else:
+        new_object_flag = True
     if new_object_flag:
         # ok, so the expected object doesn't exist so create a new one and store
         # back in the credentials file...
-        new_object_response = fd.call('POST', '/objects', {"about": 'A new FluidApp'}) 
+        new_about = raw_input("Please describe your new FluidDB application: ")
+        new_object_response = fd.call('POST', '/objects', {"about": new_about}) 
         if new_object_response[0]['status'] == '201':
             new_id = new_object_response[1]['id']
             credentials['object_id'] = new_id
