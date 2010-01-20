@@ -146,10 +146,10 @@ def main(args):
         sys.exit()
     finally:
         credentials_file.close()
-    if 'main' in args:
-        fd.prefix = fd.MAIN
-    else:
+    if 'sandbox' in args:
         fd.prefix = fd.SANDBOX
+    else:
+        fd.prefix = fd.MAIN
     logging.info("FluidDB instance: %s"%fd.prefix)
     fd.login(credentials['username'], credentials['password'])
     new_object_flag = False
